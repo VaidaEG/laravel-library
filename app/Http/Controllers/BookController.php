@@ -21,9 +21,13 @@ class BookController extends Controller
     public function index(Request $request)
     {
         $authors = Author::all();
+
+        // FILTRAVIMAS
         if ($request->author_id) {
-            $books = Book::where('author_id', $request->author_id)->get();
+            //$books = Book::where('author_id', $request->author_id)->get();
+            $books = Book::where('author_id', $request->author_id)->paginate(10);
             $filterBy = $request->author_id;
+            $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
         }
         else {
             // $books = Book::all();
