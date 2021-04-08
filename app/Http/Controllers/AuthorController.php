@@ -148,10 +148,16 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        if($author->authorBooksList->count() !== 0) {
-            return redirect()->back()->with('info_message', 'You can\'t delete this author because it has books belongs to!');
+        if ($author->authorBooksList->count() !== 0) {
+            return redirect()->back()->with('info_message', 'The Author has books, you can\'t delete. Nice try!');
+        }
+        $addedLink = 'http://localhost/php-laravel/laravel-library/public/img/'; // pridetas linkas
+        $imgName = str_replace($addedLink, '', $author->portret); // prideta linka istrinam 
+        if (file_exists(public_path('img').'/'.$imgName) && is_file(public_path('img').'/'.$imgName)) {
+            unlink(public_path('img').'/'.$imgName); // istrinam
         }
         $author->delete();
-        return redirect()->route('author.index')->with('info_message', 'The author has been successfully deleted. Nice job!');
+        return redirect()->route('author.index')->with('info_message', 'The Author has been deleted. Nice job!');
     }
+    
 }

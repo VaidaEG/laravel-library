@@ -10950,7 +10950,6 @@ a.text-dark:focus {
 
 .list-line__buttons {
   display: flex;
-  width: 30%;
 }
 
 .list-line__buttons > * {
@@ -10960,7 +10959,6 @@ a.text-dark:focus {
 .list-line__books {
   display: flex;
   flex-direction: column;
-  width: 70%;
 }
 
 .list-line__books__title {
@@ -10977,7 +10975,7 @@ body {
   background: linear-gradient(0deg, #22c1c3 0%, rgba(253, 45, 224, 0.26) 100%);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
+  height: 100vh;
 }
 
 
