@@ -25,15 +25,60 @@ class BookController extends Controller
         // FILTRAVIMAS
         if ($request->author_id) {
             //$books = Book::where('author_id', $request->author_id)->get();
-            $books = Book::where('author_id', $request->author_id)->paginate(10);
-            $filterBy = $request->author_id;
-            $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
+            if ($request->sort && 'asc' == $request->sort) {
+                $books = Book::where('author_id', $request->author_id)->orderBy('title')->paginate(10);
+                $filterBy = $request->author_id;
+                $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
+                $sortBy = 'asc';
+            }
+            else if ($request->sort && 'desc' == $request->sort) {
+                $books = Book::where('author_id', $request->author_id)->orderBy('title', 'desc')->paginate(10);
+                $filterBy = $request->author_id;
+                $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
+                $sortBy = 'desc';
+
+            }
+            else {
+                $books = Book::where('author_id', $request->author_id)->paginate(10);
+                $filterBy = $request->author_id;
+                $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
+            }
         }
         else {
-            // $books = Book::all();
-            $books = Book::paginate(10);
+            if ($request->sort && 'asc' == $request->sort) {
+                $books = Book::orderBy('title')->paginate(10);
+                $filterBy = $request->author_id;
+                $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
+                $sortBy = 'asc';
+            }
+            else if ($request->sort && 'desc' == $request->sort) {
+                $books = Book::orderBy('title', 'desc')->paginate(10);
+                $filterBy = $request->author_id;
+                $books->appends(['author_id' => $request->author_id]);// tam kad but galima filtre paginuoti
+                $sortBy = 'desc';
+            }
+            else {
+                // $books = Book::all();
+                $books = Book::paginate(10);
+            }
         }
-        return view('book.index', ['books' => $books, 'authors' => $authors, 'filterBy' => $filterBy ?? 0]);
+        
+        // if ($request->sort && 'asc' == $request->sort) {
+        //     $books = Book::where('author_id', $request->author_id)->orderBy('title')->paginate(10);
+        // }
+        // else if ($request->sort && 'desc' == $request->sort) {
+        //     $books = Book::where('author_id', $request->author_id)->orderBy('title', 'desc')->paginate(10);
+        // }
+        // // $books = Book::where('author_id', $request->author_id)->orderBy('title', 'desc')->paginate(10);
+        // // RUSIAVIMAS FILTRUOJANT
+        // if ($request->sort && 'asc' == $request->sort) {
+        //     $books = $books->sortBy('title');
+        // }
+        // else if ($request->sort && 'desc' == $request->sort) {
+        //     $books = $books->sortByDesc('title');
+        // }
+
+        return view('book.index', ['books' => $books, 'authors' => $authors, 'filterBy' => $filterBy ?? 0, 'sortBy' => $sortBy ?? '']);
     }
 
     /**

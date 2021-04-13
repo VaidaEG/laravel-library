@@ -25,5 +25,6 @@ body {
     background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,45,224,0.26) 100%);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;;
+    background-attachment: fixed;
+    // height: 100%;
 }
